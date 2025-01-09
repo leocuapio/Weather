@@ -1,5 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { WeatherProvider } from "./weathercontext";
+import Footer from "./components/footer"; // Import Footer here
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,10 +21,19 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    <ClerkProvider>
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <WeatherProvider>
+          <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+            {/* Page content goes here */}
+            <main style={{ flexGrow: 1 }}>{children}</main>
+            {/* Footer is outside the main body structure */}
+            <Footer />
+          </div>
+        </WeatherProvider>
       </body>
     </html>
+    </ClerkProvider>
   );
 }
